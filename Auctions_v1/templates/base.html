@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<style>
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .welcome{
+        text-align: left;
+        font-weight: bold;
+    }
+  .user-info {
+    text-align: right;  /* Centra il testo all'interno del suo contenitore */
+    margin-bottom: 10px; /* Aggiunge uno spazio tra le due linee di testo */
+  }
+
+  .logout-link {
+    display: block;      /* Rende il link un blocco per occupare l'intera larghezza del contenitore */
+    text-align: right;   /* Centra il testo all'interno del suo contenitore */
+  }
+
+  .bottom{
+      display: block;      /* Rende il link un blocco per occupare l'intera larghezza del contenitore */
+      text-align: left;
+  }
+</style>
+{% if user.is_authenticated %}
+  <div>
+    <div class="user-info">
+            <a href="{% url 'profilo' %}">
+                Ciao {{ user.username }}!
+            </a>
+    </div>
+      <div class="container">
+          <div class="welcome">
+        ASTE PAZZE!
+    </div>
+  <div class="logout-link">
+  <a href="{% url 'logout' %}">Logout</a></div>
+
+</div>
+    </div>
+
+{% else %}
+  <p>Non hai effettuato il login!</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+<div class="bottom">
+    <a class="button" href='{% url "all" %}'>Tutte le aste</a>
+    <a class="button" href='{% url "active" %}'>Aste Attive</a>
+    <a class="button" href='{% url "today" %}'>Aste Del Giorno</a>
+</div>
+{% block content %}{% endblock %}
+</body>
+</html>

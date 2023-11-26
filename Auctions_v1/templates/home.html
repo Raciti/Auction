@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <body>
+        <style>
+            .benvenuto{
+                text-align: center;
+                font-weight: bold;
+            }
+
+        </style>
+        <div class="benvenuto">
+            <h1>
+                WELCOME
+                <div> <br> <br> </div>
+                {% load static %}
+                <div>
+                    <img src="{% static 'your_app/images/fornaia.jpg' %}" alt="Fornaia" width="300" height="200">
+                    <img src="{% static 'your_app/images/tramontana.jpg' %}" alt="Tramontana" width="250" height="200">
+                </div>
+            </h1>
+        </div>
+    </body>
+{% endblock %}
+
+

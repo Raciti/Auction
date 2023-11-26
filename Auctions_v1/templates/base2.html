@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Modifica Offerta{% endblock %}
+
+{% block content %}
+  <h2>Modifica Offerta</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="new_offer">Nuova Offerta:</label>
+    <input type="text" id="new_offer" name="new_offer" required>
+    <button type="submit">Salva Offerta</button>
+  </form>
+  <p>Attuale Offerta: {{ todoitem.offer }}</p>
+{% endblock %}

@@ -1,0 +1,48 @@
+<!-- user_info.html -->
+{% extends "base.html" %}
+<style>
+
+    .info{
+        text-align: left;
+    }
+</style>
+
+
+{% block content %}
+    <h2>Benvenuto nella sezione per gli utenti</h2>
+    <p>Qui troverai tutte le informazioni del tuo account.</p>
+    {% block user_info %}
+        <div class="info">
+            <p>Benvenuto, {{ user.first_name }} {{ user.last_name }}!</p>
+            <p>Email: {{ user.email }}</p>
+
+
+            <p>Lista oggetti aggiudicati:
+                {% if not oggetti_aggiudicati %}
+                    <a href='{% url "active" %}'> Ancora nessun oggetto aggiudicato, corri ad aggiudicarti qualcosa. </a>
+                {% endif %}
+                {% for item in oggetti_aggiudicati %}
+                    <li>{{ item.text }}{% if not forloop.last %};{% else %}.{% endif %}</li> <!-- forloop.last controlla se è l'ultimo elemento-->
+                {% endfor %}
+            </p>
+            {% if user.is_staff %}
+                <p>Fai parte dello staff.</p>
+                <a href="{% url 'admin:index' %}" target="_blank">Admin link</a>
+            {% endif %}
+
+            {% if user.is_superuser %}
+                <p>Sei un amministratore.</p>
+            {% endif %}
+
+            {% if user.get_all_permissions %}
+                <p>Permessi:</p>
+                <ul>
+                    {% for permission in user.get_all_permissions %}
+                        <li>{{ permission }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+    {% endblock %}
+{% endblock %}

@@ -3,12 +3,15 @@ from datetime import date
 from django.views.generic import ListView
 from .models import ToDoItem
 
+
 class AllToDos(ListView):
     model = ToDoItem
     template_name = "Auctions/index.html"
 
     def get_queryset(self):
         return ToDoItem.objects.all().order_by('-timer')
+
+
 class TodayToDos(ListView):
     model = ToDoItem
     template_name = "Auctions/today.html"
@@ -16,13 +19,13 @@ class TodayToDos(ListView):
     def get_queryset(self):
         return ToDoItem.objects.all().order_by('-timer')
 
+
 class ActiveToDos(ListView):
     model = ToDoItem
     template_name = "Auctions/attive.html"
 
     def get_queryset(self):
         return ToDoItem.objects.all().order_by('timer').order_by('-offer')
-
 
 
 from django.contrib.auth import views as auth_views
@@ -35,6 +38,7 @@ from .form import LoginForm
 class LoginView(auth_views.LoginView):
     form_class = LoginForm
     template_name = 'Registration/login.html'
+
 
 from django.urls import reverse_lazy
 from django.views import generic
@@ -73,10 +77,8 @@ class SignUpView(generic.CreateView):
 # views.py
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.views import PasswordResetView
-from django import forms
+from .form import CustomPasswordResetForm
 
-class CustomPasswordResetForm(PasswordResetForm):
-    email = forms.EmailField(label='Email', max_length=254, widget=forms.EmailInput(attrs={'autocomplete': 'email'}))
 
 class CustomPasswordResetView(PasswordResetView):
     form_class = CustomPasswordResetForm
@@ -86,6 +88,7 @@ class CustomPasswordResetView(PasswordResetView):
 # views.py
 from django.shortcuts import render
 from django.contrib.auth.models import User  # Supponiamo che tu stia utilizzando il modello User di Django
+
 
 def user_info_view(request):
     user = User.objects.get(username=request.user.username)
@@ -100,7 +103,7 @@ def user_info_view(request):
     return render(request, 'User/profilo.html', {'user': user, 'oggetti_aggiudicati': oggetti_aggiudicati})
 
 
-#Modifica offer
+# Modifica offer
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.contrib.auth.decorators import permission_required
@@ -109,6 +112,7 @@ from .models import ToDoItem
 from django.http import HttpResponseBadRequest
 from django.contrib import messages
 from .middleware import GroupRequiredMixin
+
 
 @method_decorator(GroupRequiredMixin('Acquirenti'), name='dispatch')
 class ModificaOfferView(View):
@@ -148,10 +152,10 @@ class ModificaOfferView(View):
         return render(request, self.template_name, {'todoitem': todoitem})
 
 
-
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import ToDoItem
+
 
 class DettaglioProdottoView(View):
     template_name = 'Auctions/dettaglio_prodotto.html'

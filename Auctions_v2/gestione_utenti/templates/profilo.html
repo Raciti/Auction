@@ -1,0 +1,45 @@
+<!-- user_info.html -->
+{% extends "base.html" %}
+<style>
+
+    .info{
+        text-align: left;
+    }
+</style>
+
+
+{% block content %}
+    <h2>Benvenuto nella sezione per gli utenti</h2>
+    <p>Qui troverai tutte le informazioni del tuo account.</p>
+    {% block user_info %}
+        <div class="info">
+            <p>Benvenuto, {{ user.first_name }} {{ user.last_name }}!</p>
+            <p>Email: {{ user.email }}</p>
+
+            <div>
+                <a class="button" href='{% url "home" %}'>Home</a>
+                <a class="button" href='{% url "oggetti_aggiudicati" %}'>Aste Vinte</a>
+            </div>
+
+            {% if user.is_staff %}
+                <p>Fai parte dello staff.</p>
+                <a href="{% url 'message_list' %}"> Casella messaggi</a>
+            {% endif %}
+
+            {% if user.is_superuser %}
+                <p>Sei un amministratore.</p>
+                <a href="{% url 'admin:index' %}" target="_blank">Admin link</a>
+            {% endif %}
+
+            {% if user.get_all_permissions %}
+                <p>Permessi:</p>
+                <ul>
+                    {% for permission in user.get_all_permissions %}
+                        <li>{{ permission }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+    {% endblock %}
+{% endblock %}

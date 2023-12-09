@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Aste del Giorno Attive:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome prodotto</th>
+                <th>Prezzo Partenza [€]</th>
+                <th>Offerta Attuale</th>
+                <th>Tempo rimanente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                {% if item.getCaricamento and item.available%}
+                    <tr>
+                        <td><a href='{% url "dettaglio_prodotto" item.id %}' >
+                                {{ item.text }}
+                            </a></td>
+                        <td>{{ item.min_sale }}</td>
+                        <td>{{ item.offer }}</td>
+                        <td class="tempo-rimanente">{{ item.tempo_rimanente }}</td>
+                    </tr>
+                {%  endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h1>Aste del Giorno Concluse:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome prodotto</th>
+                <th>Prezzo Partenza [€]</th>
+                <th>Prezzo di vendita [€]</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                {% if item.getCaricamento and item.venduto %}
+                    <tr>
+                        <td>{{ item.text }}</td>
+                        <td>{{ item.min_sale }}</td>
+                        <td>{{ item.offer }}</td>
+                    </tr>
+                {%  endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="bottom">
+    <a class="button" href='{% url "home" %}'>Home</a>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+<style>
+
+    .info{
+        text-align: left;
+    }
+</style>
+{% block content %}
+    <h2>Ecco tutte le aste che hai vinto!</h2>
+    <p>Qui troverai tutte le informazioni relative gli oggetti che ti sei aggiudicato.</p>
+    {% block user_info %}
+        <div class="info">
+            <p>{{ user.last_name }} {{ user.first_name }}</p>
+            <p>Email: {{ user.email }}</p>
+
+             <p>Lista oggetti aggiudicati:
+                {% if not oggetti_aggiudicati %}
+                    <a href='{% url "aste_attive" %}'> Ancora nessun oggetto aggiudicato, corri ad aggiudicarti qualcosa. </a>
+                {% endif %}
+                {% for item in oggetti_aggiudicati %}
+                    <li>{{ item.text }}, aggiudicato  {{ item.timer }} ad {{ item.offer }}€{% if not forloop.last %};{% else %}.{% endif %}</li> <!-- forloop.last controlla se è l'ultimo elemento-->
+                {% endfor %}
+            </p>
+
+            <div>
+                <a class="button" href='{% url "home" %}'>Home</a>
+            </div>
+        </div>
+
+    {% endblock %}
+{% endblock %}

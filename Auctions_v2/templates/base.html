@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<style>
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .welcome{
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .user-info {
+        text-align: right;
+        margin-bottom: 10px;
+      }
+
+    .logout-link {
+        display: block;
+        text-align: right;
+      }
+
+    .bottom{
+      display: block;
+      text-align: left;
+      }
+
+    .assistenza{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 25px;
+    }
+</style>
+{% if user.is_authenticated %}
+  <div>
+
+        <div class="user-info">
+            <a href="{% url 'profilo' %}">
+                Ciao {{ user.username }}!
+            </a>
+        </div>
+
+      <div class="container">
+
+          <div class="welcome">
+                ASTE PAZZE!
+          </div>
+
+          <div class="logout-link">
+              <a href="{% url 'logout' %}">Logout</a>
+          </div>
+
+      </div>
+
+  </div>
+
+{% else %}
+  <p>Non hai effettuato il login!</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+<div class="bottom">
+    <a class="button" href="{% url 'tutte_aste' %}">Tutte le aste</a>
+    <a class="button" href="{% url 'aste_attive' %}">Aste Attive</a>
+    <a class="button" href="{% url 'aste_giorno' %}">Aste Del Giorno</a>
+</div>
+{% block content %}{% endblock %}
+<a class="assistenza" href="{% url 'send_message' %}">Serve assistenza?</a>
+</body>
+</html>

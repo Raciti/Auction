@@ -1,0 +1,148 @@
+<!-- user_info.html -->
+{% extends "base.html" %}
+<html>
+
+
+<style>
+
+    .info{
+        text-align: left;
+    }
+    .bottom{
+      display: block;
+      text-align: left;
+      }
+</style>
+
+<body>
+{% block content %}
+    <h2>Benvenuto nella sezione per gli utenti</h2>
+    <p>Qui troverai tutte le informazioni del tuo account.</p>
+    {% block user_info %}
+        <div class="info">
+            <p>Benvenuto, {{ user.first_name }} {{ user.last_name }}!</p>
+            <p>Email: {{ user.email }}</p>
+
+            <div>
+                <a class="button" href='{% url "home" %}'>Home</a>
+                <a class="button" href='{% url "oggetti_aggiudicati" %}'>Aste Vinte</a>
+            </div>
+
+            {% if user.is_staff %}
+                <p>Fai parte dello staff.</p>
+                <a id="messages"> Casella messaggi</a>
+
+                <script>
+                    $(document).ready(function() {
+                        function getTokenFromUser() {
+                            return '{{ request.user.tk }}';
+                        }
+
+                        function inviaTokenListaMessages(token) {
+                          $.ajax({
+                            url: 'http://127.0.0.1:8002/tua-view/',
+                            method: 'GET',
+                            headers: {
+                              'Authorization': 'Bearer ' + token
+                            },
+                            success: function(response) {
+                              console.log('Token inviato con successo:', response);
+                                window.location.href = "http://127.0.0.1:8002/messages/"
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(header);
+                                console.error('Errore durante l\'invio del token:', error);
+                                console.log('Stato HTTP:', xhr.status);
+                            }
+                          });
+                        }
+
+                        $('#messages').on('click', function() {
+                            const token = getTokenFromUser();
+                            inviaTokenListaMessages(token);
+                        });
+
+                    });
+                </script>
+
+            {% endif %}
+
+            {% if user.is_superuser %}
+                <p>Sei un amministratore.</p>
+                <div class="bottom">
+                    <a  class="button" href="{% url 'admin:index' %}" target="_blank">Link Admin Utenti</a> <br>
+                    <a class="button" id ="adminOggetti"  target="_blank">Link Admin Oggetti</a> <br>
+                    <a class="button" id ="adminMessaggi" target="_blank">Link Admin Messaggi</a>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        function getTokenFromUser() {
+                            return '{{ request.user.tk }}';
+                        }
+
+                        function inviaTokenAdminOggetti(token) {
+                          $.ajax({
+                            url: 'http://127.0.0.1:8001/tua-view/',
+                            method: 'GET',
+                            headers: {
+                              'Authorization': 'Bearer ' + token
+                            },
+                            success: function(response) {
+                              console.log('Token inviato con successo:', response);
+                                window.location.href = "http://127.0.0.1:8001/admin/"
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(header);
+                                console.error('Errore durante l\'invio del token:', error);
+                                console.log('Stato HTTP:', xhr.status);
+                            }
+                          });
+                        }
+
+                        $('#adminOggetti').on('click', function() {
+                            const token = getTokenFromUser();
+                            inviaTokenAdminOggetti(token);
+                        });
+
+                        function inviaTokenAdminMessaggi(token) {
+                          $.ajax({
+                            url: 'http://127.0.0.1:8002/tua-view/',
+                            method: 'GET',
+                            headers: {
+                              'Authorization': 'Bearer ' + token
+                            },
+                            success: function(response) {
+                              console.log('Token inviato con successo:', response);
+                                window.location.href = "http://127.0.0.1:8002/admin/"
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(header);
+                                console.error('Errore durante l\'invio del token:', error);
+                                console.log('Stato HTTP:', xhr.status);
+                            }
+                          });
+                        }
+
+                        $('#adminMessaggi').on('click', function() {
+                            const token = getTokenFromUser();
+                            inviaTokenAdminMessaggi(token);
+                        });
+                    });
+                </script>
+            {% endif %}
+
+            {% if user.get_all_permissions %}
+                <p>Permessi:</p>
+                <ul>
+                    {% for permission in user.get_all_permissions %}
+                        <li>{{ permission }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+    {% endblock %}
+{% endblock %}
+
+</body>
+</html>

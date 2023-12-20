@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+<style>
+
+    .info{
+        text-align: left;
+    }
+</style>
+{% block content %}
+    <h2>Ecco tutte le aste che hai vinto!</h2>
+    <p>Qui troverai tutte le informazioni relative gli oggetti che ti sei aggiudicato.</p>
+    {% block user_info %}
+        <div class="info">
+            <p>{{ user.last_name }} {{ user.first_name }}</p>
+            <p>Email: {{ user.email }}</p>
+
+             <p>Lista oggetti aggiudicati:
+
+
+                <div id="items"></div>
+
+                <script>
+                    $(document).ready(function() {
+
+                        function getTokenFromUser() {
+                            return '{{ request.user.tk }}';
+                        }
+
+                        inviaTokenAlMicroserviziogetItem(getTokenFromUser());
+
+                        function inviaTokenAlMicroserviziogetItem(token) {
+                            $.ajax({
+                                url: 'http://127.0.0.1:8001/view_item/',
+                                method: 'GET',
+                                dataType: 'json',
+                                headers: {
+                                    'Authorization': 'Bearer ' + token
+                                },
+                                success: function (response) {
+                                    var oggettiAggiudicati = response.oggetti_aggiudicati.replace(/'/g, '"');
+
+                                    var oggettiAggiudicatiArray = JSON.parse(oggettiAggiudicati);
+
+                                    var resultHTML = '<ul>';
+                                    if (oggettiAggiudicatiArray.length > 0) {
+                                        console.log("dentro if", oggettiAggiudicatiArray.length)
+                                        for (let i = 0; i < oggettiAggiudicatiArray.length; i++) {
+                                            console.log("dentro for")
+                                            var oggetto = oggettiAggiudicatiArray[i];
+                                            console.log(oggetto)
+                                            console.log(oggetto.text)
+
+                                            var text = oggetto.text;
+                                            var min_sale = oggetto.min_sale;
+                                            var offer = oggetto.offer;
+
+                                            resultHTML += '<li>Articolo: ' + text + ', Offerta partenza: ' + min_sale + ', Aggiudicato a: ' + offer + '</li>';
+
+
+                                        }
+                                        console.log("fuori if")
+                                    } else {
+                                        resultHTML += '<li>Ancora nessun oggetto aggiudicato, corri ad aggiudicarti qualcosa.</li>';
+                                    }
+                                    resultHTML += '</ul>';
+
+                                    $('#items').html(resultHTML);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(header);
+                                    console.error('Errore durante l\'invio del token:', error);
+                                    console.log('Stato HTTP:', xhr.status);
+                                }
+                            });
+                        }
+                    });
+                </script>
+
+             </p>
+
+            <div>
+                <a class="button" href='{% url "home" %}'>Home</a>
+            </div>
+        </div>
+
+    {% endblock %}
+{% endblock %}

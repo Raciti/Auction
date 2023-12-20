@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Aste Attive:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome prodotto</th>
+                <th>Prezzo Partenza [€]</th>
+                <th>Tempo rimanente [€]</th>
+                <th>Data Esposizione</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                {% if item.available%}
+                    <tr>
+                        <td> <a href='{% url "dettaglio_prodotto" item.id %}' >
+                                {{ item.text }}
+                            </a></td>
+                        <td>{{ item.min_sale }}</td>
+                        <td>{{ item.tempo_rimanente }}</td>
+                        <td>{{ item.due_date }}</td>
+                    </tr>
+                {%  endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h1>Aste Esaurite:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome prodotto</th>
+                <th>Prezzo Partenza [€]</th>
+                <th>Prezzo Vendita</th>
+                <th>Data Esposizione</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                {% if not item.available%}
+                    <tr>
+                        <td>{{ item.text }}</td>
+                        <td>{{ item.min_sale }}</td>
+                        {% if item.offer == 0 %}
+                            <td>{{ "Non venduto" }}</td>
+                        {% else %}
+                            <td>{{ item.offer }}</td>
+                        {% endif %}
+                        <td>{{ item.due_date }}</td>
+                    </tr>
+                {%  endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

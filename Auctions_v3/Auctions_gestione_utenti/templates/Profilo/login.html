@@ -1,0 +1,33 @@
+{% extends "base2.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <body>
+        <style>
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 100px 180px;
+                grid-template-rows: 60px;
+                gap: 5px;
+                text-align: center;
+            }
+        </style>
+
+        <h2>Log In</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="container">
+                <button type="submit">Accedi</button>
+                <a class="button"  href='{% url "password_reset" %}'>Password Dimenticata?</a>
+            </div>
+        </form>
+
+        <h3>Non hai un account?</h3>
+
+        <a class="button" href="{% url 'register' %}" style="width: 180px; height: 50px; text-align: center;">Registrati</a>
+    </body>
+{% endblock %}

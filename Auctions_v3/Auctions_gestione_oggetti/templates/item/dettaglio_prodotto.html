@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Dettaglio Prodotto: {{ todoitem.text }}{% endblock %}
+
+{% block content %}
+    <h1>Dettaglio Prodotto: {{ todoitem.text }}</h1>
+    <p>Prezzo Partenza: {{ todoitem.min_sale }}</p>
+    <p>Offerta attuale: {% if todoitem.min_sale == 0 %} Nessuna offerta {% else %} {{ todoitem.offer }} {% endif %}</p>
+    <p>Tempo rimanente: {{ todoitem.tempo_rimanente }}</p>
+    <div class="bottom">
+        <a class="button" href="{% url 'modifica_offerta' todoitem.id %}">Fai un'offerta</a>
+        <a class="button" href='{% url "aste_attive" %}'>Torna alla schermata precedente</a>
+    </div>
+{% endblock %}

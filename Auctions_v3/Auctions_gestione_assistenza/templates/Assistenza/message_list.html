@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <body>
+        <div>
+           <h1>Chat</h1>
+        </div>
+        <ul>
+            {% for message in messages %}
+                <li>{{ message.sender }} ha inviato il messaggio: <a>{{ message.content }}</a></li>
+                <p>In data <a>{{ message.timestamp }}</a></p>
+            {% endfor %}
+        </ul>
+</body>
+{% endblock %}

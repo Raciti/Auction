@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Modifica Offerta: {{ todoitem.text }}{% endblock %}
+
+{% block content %}
+    <h1>Modifica Offerta: {{ todoitem.text }}</h1>
+    <form method="post" action="{% url 'modifica_offerta' todoitem.id %}" id="modifica-offerta-form">
+        {% csrf_token %}
+        <label for="new_offer">Nuova Offerta:</label>
+        <input type="text" id="new_offer" name="new_offer" required>
+        <button type="submit">Salva Offerta</button>
+    </form>
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+    </li>
+{% endfor %}
+    <p>Attuale Offerta: {{ todoitem.offer }}</p>
+
+    <div id="error-messages"></div>
+
+    <div class="bottom">
+        <a class="button" href='{% url "home" %}'>Home</a>
+    </div>
+
+    <script>
+        function showError(message) {
+            var errorContainer = document.getElementById('error-messages');
+            errorContainer.innerHTML = '<p class="error-message">' + message + '</p>';
+        }
+
+        var form = document.getElementById('modifica-offerta-form');
+        form.addEventListener('submit', function (event) {
+            var newOfferValue = document.getElementById('new_offer').value;
+
+            if (!isValidOffer(newOfferValue)) {
+                showError("Offerta non valida. Inserisci un valore valido.");
+                event.preventDefault();
+            }
+        });
+
+        function isValidOffer(offer) {
+            return offer >= 0;
+        }
+    </script>
+{% endblock %}

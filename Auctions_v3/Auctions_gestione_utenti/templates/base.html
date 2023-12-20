@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+<style>
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .welcome{
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .user-info {
+        text-align: right;
+        margin-bottom: 10px;
+      }
+
+    .logout-link {
+        display: block;
+        text-align: right;
+      }
+
+    .bottom{
+      display: block;
+      text-align: left;
+      }
+
+    .assistenza{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 25px;
+    }
+</style>
+{% if user.is_authenticated %}
+  <div>
+
+        <div class="user-info">
+            <a href="{% url 'profilo' %}">
+                Ciao {{ user.username }}!
+            </a>
+        </div>
+
+      <div class="container">
+
+          <div class="welcome">
+                ASTE PAZZE!
+          </div>
+
+          <div class="logout-link">
+              <a href="{% url 'logout' %}">Logout</a>
+          </div>
+
+      </div>
+
+  </div>
+
+{% else %}
+  <p>Non hai effettuato il login!</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+<div class="bottom">
+    <a class="button" id="tutteAsteButton">Tutte le aste</a>
+    <a class="button" id = "Aste_attive">Aste Attive</a>
+    <a class="button" id = "Aste_Giorno">Aste Del Giorno</a>
+</div>
+{% block content %}{% endblock %}
+<div>
+<a class="assistenza" id="assistenza">Serve assistenza?</a>
+</div>
+
+{% if user.is_authenticated %}
+<script>
+  $(document).ready(function() {
+    function getTokenFromUser() {
+      return '{{ request.user.tk }}';
+    }
+
+    function inviaTokenAlMicroservizio(token) {
+      $.ajax({
+        url: 'http://127.0.0.1:8001/tua-view/',
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        success: function(response) {
+          console.log('Token inviato con successo:', response);
+            window.location.href = "http://127.0.0.1:8001/tutte_aste/"
+        },
+        error: function(xhr, status, error) {
+            console.log(header);
+            console.error('Errore durante l\'invio del token:', error);
+            console.log('Stato HTTP:', xhr.status);
+        }
+      });
+    }
+
+    $('#tutteAsteButton').on('click', function() {
+        console.log("ciao")
+        const token = getTokenFromUser();
+        console.log(token)
+      inviaTokenAlMicroservizio(token);
+    });
+
+    function inviaTokenAsteAttive(token) {
+      $.ajax({
+        url: 'http://127.0.0.1:8001/tua-view/',
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        success: function(response) {
+          console.log('Token inviato con successo:', response);
+            window.location.href = "http://127.0.0.1:8001/aste_attive/"
+        },
+        error: function(xhr, status, error) {
+            console.error('Errore durante l\'invio del token:', error);
+            console.log('Stato HTTP:', xhr.status);
+        }
+      });
+    }
+
+    $('#Aste_attive').on('click', function() {
+        const token = getTokenFromUser();
+      inviaTokenAsteAttive(token);
+    });
+
+    function inviaTokenAsteGiorno(token) {
+      $.ajax({
+        url: 'http://127.0.0.1:8001/tua-view/',
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        success: function(response) {
+          console.log('Token inviato con successo:', response);
+            window.location.href = "http://127.0.0.1:8001/aste_giorno/"
+        },
+        error: function(xhr, status, error) {
+            console.error('Errore durante l\'invio del token:', error);
+            console.log('Stato HTTP:', xhr.status);
+        }
+      });
+    }
+
+    $('#Aste_Giorno').on('click', function() {
+        const token = getTokenFromUser();
+      inviaTokenAsteGiorno(token);
+    });
+
+    function inviaTokenAssitenza(token) {
+      $.ajax({
+        url: 'http://127.0.0.1:8002/tua-view/',
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        success: function(response) {
+          console.log('Token inviato con successo:', response);
+            window.location.href = "http://127.0.0.1:8002/send/"
+        },
+        error: function(xhr, status, error) {
+            console.log(header);
+            console.error('Errore durante l\'invio del token:', error);
+            console.log('Stato HTTP:', xhr.status);
+        }
+      });
+    }
+
+    $('#assistenza').on('click', function() {
+        const token = getTokenFromUser();
+      inviaTokenAssitenza(token);
+    });
+
+
+  });
+
+</script>
+{% endif %}
+
+
+
+</body>
+</html>

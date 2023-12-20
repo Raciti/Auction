@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+<body>
+<style>
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .welcome{
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .user-info {
+        text-align: right;
+        margin-bottom: 10px;
+      }
+
+    .logout-link {
+        display: block;
+        text-align: right;
+      }
+
+    .bottom{
+      display: block;
+      text-align: left;
+      }
+
+    .assistenza{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 25px;
+    }
+</style>
+{% if ultimo_elemento %}
+        <div class="user-info">
+            <a id = "user">
+                Ciao {{ ultimo_elemento.get_username}}!
+            </a>
+        </div>
+
+      <div class="container">
+
+          <div class="welcome">
+                ASTE PAZZE!
+          </div>
+
+          <div class="logout-link">
+              <a id="logout">Logout</a>
+          </div>
+
+      </div>
+
+{% endif %}
+<div class="bottom">
+        <a class="button" id="inviahome">Home</a>
+</div>
+{% block content %}{% endblock %}
+<a class="assistenza" href="{% url 'send_message' %}">Serve assistenza?</a>
+<script>
+    console.log({{ request.session.token }})
+    $(document).ready(function() {
+        function inviaTokenAlMicroservizio(token) {
+          $.ajax({
+            url: 'http://127.0.0.1:8000/view/',
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+            success: function(response) {
+              console.log('Token inviato con successo:', response);
+                window.location.href = "http://127.0.0.1:8000/home_tk/"
+            },
+            error: function(xhr, status, error) {
+                console.log(header);
+                console.error('Errore durante l\'invio del token:', error);
+                console.log('Stato HTTP:', xhr.status);
+            }
+          });
+        }
+
+        $('#inviahome').on('click', function() {
+            inviaTokenAlMicroservizio("{{ ultimo_elemento.get_tk }}");
+        });
+
+
+        function inviaTokenLogout(token) {
+          $.ajax({
+            url: 'http://127.0.0.1:8000/view/',
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+            success: function(response) {
+              console.log('Token inviato con successo:', response);
+                window.location.href = "http://127.0.0.1:8000/login/"
+            },
+            error: function(xhr, status, error) {
+                console.log(header);
+                console.error('Errore durante l\'invio del token:', error);
+                console.log('Stato HTTP:', xhr.status);
+            }
+          });
+        }
+
+        $('#logout').on('click', function() {
+            inviaTokenLogout("{{ ultimo_elemento.get_tk }}");
+        });
+
+        function inviaTokenUser(token) {
+          $.ajax({
+            url: 'http://127.0.0.1:8000/view/',
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+            success: function(response) {
+              console.log('Token inviato con successo:', response);
+                window.location.href = "http://127.0.0.1:8000/user_info/"
+            },
+            error: function(xhr, status, error) {
+                console.log(header);
+                console.error('Errore durante l\'invio del token:', error);
+                console.log('Stato HTTP:', xhr.status);
+            }
+          });
+        }
+
+        $('#user').on('click', function() {
+            inviaTokenUser("{{ ultimo_elemento.get_tk }}");
+        });
+
+  });
+
+</script>
+</body>
+</html>

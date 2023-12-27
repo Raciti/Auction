@@ -1,0 +1,64 @@
+@startuml
+
+class Quest implements Model {
+  + tk: CharField
+	
+  + set_tk(string: new_tk): void
+	+ get_tk(): CharField
+  + get_username(): str
+  + get_email(): str
+  + get_name(): str
+}
+
+class Item implements Model{
+  + text: CharField
+  + due_date: DateField
+  + min_sale: IntegerField
+  + timer: DateTimeField
+  + offer: IntegerField
+  + user: CharField
+  + tempo_rimanente(): str
+  + available(): bool
+  + venduto(): bool
+  + check_User(u: str): bool
+  + getCaricamento(): bool
+  + __str__(): str
+}
+
+class AllToDos {
+  + model: Item
+  + template_name: string
+  + get_queryset(): QuerySet
+}
+
+class TodayToDos {
+  + model: Item
+  + template_name: string
+  + get_queryset(): QuerySet
+}
+
+class ActiveToDos {
+  + model: Item
+  + template_name: string
+  + get_queryset(): QuerySet
+}
+
+class ModificaOfferView {
+  + template_name: string
+  + get(request, todoitem_id): HttpResponse
+  + post(request, todoitem_id): HttpResponse
+}
+
+class DettaglioProdottoView {
+  + template_name: string
+  + get(request, todoitem_id): HttpResponse
+}
+
+AllToDos --> Item
+TodayToDos --> Item
+ActiveToDos --> Item
+ModificaOfferView --> Item
+DettaglioProdottoView --> Item
+DettaglioProdottoView --> Quest
+
+@enduml

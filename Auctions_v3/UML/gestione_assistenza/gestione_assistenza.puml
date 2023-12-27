@@ -1,0 +1,38 @@
+@startuml
+class Quest implements Model {
+  + tk: CharField
+	
+  + set_tk(string: new_tk): void
+	+ get_tk(): CharField
+  + get_username(): str
+  + get_email(): str
+  + get_name(): str
+}
+
+class Message implements Model{
+  + sender: CharField
+  + content: TextField
+  + timestamp: DateTimeField
+  + __str__(): str
+}
+
+class MessageForm implements ModelForm{
+  + Meta: MetaClass
+}
+
+MessageForm --> Message
+
+class MessageListView {
+  + message_list(request): HttpResponse
+}
+
+MessageListView --> Message: Uses
+
+class SendMessageView {
+  + send_message(request): HttpResponse
+}
+
+SendMessageView --|> MessageForm
+SendMessageView --> Message
+SendMessageView --> Quest
+@enduml

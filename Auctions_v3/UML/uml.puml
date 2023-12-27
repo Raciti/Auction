@@ -1,0 +1,185 @@
+
+
+@startuml
+class CustomUserManager implements BaseUserManager {
+  + email: EmailField
+  + user: Object
+
+  + create_user(str: email, string: username)
+  + create_superuser(string: email, string: username)
+}
+
+class CustomUser implements AbstractUser {
+  + email: EmailField
+  + tk: CharField
+  + is_active: BooleanField
+  + is_staff: BooleanField
+  + objects: CustomUserManager
+  + USERNAME_FIELD: 'email'
+  + REQUIRED_FIELDS: ['username']
+
+  + set_tk(string: token)
+}
+
+class UserAdmin implements BaseUserAdmin{
+  + add_for: RegisterForm
+  + form: RegisterForm
+  + model: CustomUser
+}
+
+
+CustomUserManager --> CustomUser
+UserAdmin --> CustomUser
+
+note right of CustomUser::objects
+  Instance CustomUserManager
+end note
+
+
+
+class RegisterForm implements UserCreationForm{
+  + email: EmailField
+  + username: EmailField
+  + first_name: EmailField
+  + last_name: EmailField
+  + Meta: MetaClass
+}
+
+class generate_jwt_token{
+  + generate_jwt_token(user: User): str
+}
+
+class LoginForm implements AuthenticationForm{
+  + username: CharField
+  + password: PasswordInput
+}
+
+class LoginView{
++ form_class: LoginForm
++ template_name: HTML
+
++ form_valid(form: form_class): HttpResponse
++ form_invalid(form: form_class): HttpResponse
+}
+
+LoginView --> LoginForm
+LoginView --> CustomUser
+LoginView --> generate_jwt_token
+
+class RegisterView{
+  + register_view(request: HttpRequest): HttpResponse
+}
+
+RegisterView --> RegisterForm
+RegisterView --> generate_jwt_token
+
+
+note right of RegisterForm::Meta
+  Call the CustomUser
+end note
+
+@enduml
+
+@startuml
+
+class Quest implements Model {
+  + tk: CharField
+	
+  + set_tk(string: new_tk): void
+	+ get_tk(): CharField
+  + get_username(): str
+  + get_email(): str
+  + get_name(): str
+}
+
+class Item implements Model{
+  + text: CharField
+  + due_date: DateField
+  + min_sale: IntegerField
+  + timer: DateTimeField
+  + offer: IntegerField
+  + user: CharField
+  + tempo_rimanente(): str
+  + available(): bool
+  + venduto(): bool
+  + check_User(u: str): bool
+  + getCaricamento(): bool
+  + __str__(): str
+}
+
+class AllToDos {
+  + model: Item
+  + template_name: string
+  + get_queryset(): QuerySet
+}
+
+class TodayToDos {
+  + model: Item
+  + template_name: string
+  + get_queryset(): QuerySet
+}
+
+class ActiveToDos {
+  + model: Item
+  + template_name: string
+  + get_queryset(): QuerySet
+}
+
+class ModificaOfferView {
+  + template_name: string
+  + get(request, todoitem_id): HttpResponse
+  + post(request, todoitem_id): HttpResponse
+}
+
+class DettaglioProdottoView {
+  + template_name: string
+  + get(request, todoitem_id): HttpResponse
+}
+
+AllToDos --> Item
+TodayToDos --> Item
+ActiveToDos --> Item
+ModificaOfferView --> Item
+DettaglioProdottoView --> Item
+DettaglioProdottoView --> Quest
+
+@enduml
+
+@startuml
+class Quest implements Model {
+  + tk: CharField
+	
+  + set_tk(string: new_tk): void
+	+ get_tk(): CharField
+  + get_username(): str
+  + get_email(): str
+  + get_name(): str
+}
+
+class Message implements Model{
+  + sender: CharField
+  + content: TextField
+  + timestamp: DateTimeField
+  + __str__(): str
+}
+
+class MessageForm implements ModelForm{
+  + Meta: MetaClass
+}
+
+MessageForm --> Message
+
+class MessageListView {
+  + message_list(request): HttpResponse
+}
+
+MessageListView --> Message: Uses
+
+class SendMessageView {
+  + send_message(request): HttpResponse
+}
+
+SendMessageView --|> MessageForm
+SendMessageView --> Message
+SendMessageView --> Quest
+@enduml

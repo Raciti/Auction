@@ -1,0 +1,79 @@
+@startuml
+class CustomUserManager implements BaseUserManager {
+  + email: EmailField
+  + user: Object
+
+  + create_user(str: email, string: username)
+  + create_superuser(string: email, string: username)
+}
+
+class CustomUser implements AbstractUser {
+  + email: EmailField
+  + tk: CharField
+  + is_active: BooleanField
+  + is_staff: BooleanField
+  + objects: CustomUserManager
+  + USERNAME_FIELD: 'email'
+  + REQUIRED_FIELDS: ['username']
+
+  + set_tk(string: token)
+}
+
+class UserAdmin implements BaseUserAdmin{
+  + add_for: RegisterForm
+  + form: RegisterForm
+  + model: CustomUser
+}
+
+
+CustomUserManager --> CustomUser
+UserAdmin --> CustomUser
+
+note right of CustomUser::objects
+  Instance CustomUserManager
+end note
+
+
+
+class RegisterForm implements UserCreationForm{
+  + email: EmailField
+  + username: EmailField
+  + first_name: EmailField
+  + last_name: EmailField
+  + Meta: MetaClass
+}
+
+class generate_jwt_token{
+  + generate_jwt_token(user: User): str
+}
+
+class LoginForm implements AuthenticationForm{
+  + username: CharField
+  + password: PasswordInput
+}
+
+class LoginView{
++ form_class: LoginForm
++ template_name: HTML
+
++ form_valid(form: form_class): HttpResponse
++ form_invalid(form: form_class): HttpResponse
+}
+
+LoginView --> LoginForm
+LoginView --> CustomUser
+LoginView --> generate_jwt_token
+
+class RegisterView{
+  + register_view(request: HttpRequest): HttpResponse
+}
+
+RegisterView --> RegisterForm
+RegisterView --> generate_jwt_token
+
+
+note right of RegisterForm::Meta
+  Call the CustomUser
+end note
+
+@enduml

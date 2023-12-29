@@ -11,7 +11,7 @@ Nella seconda versione, vengono sfruttate al massimo le potenzialità fornite da
 ## Versione 3
 Nella terza versione tramite l'ausilio di *rest_framework* e di *corsheaders* è stato utilizzato un approccio a **microservizi**. In questo scenario sono state definiti tre progetti separati ognuno con un proprio database e la comunicazione tra i vari servizi è stata gestita tramite REST API.
 
-# Visione Applicazione 
+# FRONTEND
 ## Fase iniziale
 La prima schermata che si avrà davanti all'avvio dell'applicazione è la schermata di login
 <br/> <br/> 
@@ -84,19 +84,14 @@ In the third version, with the help of *rest_framework* and *corsheaders*, a **m
 ## Initial Phase
 
 The first screen encountered upon launching the application is the login screen.
-
 <br/> <br/> 
 <img src="https://github.com/Raciti/Auction/blob/main/Img/login.png" alt="Img1" width="300"/>
 <br/> <br/>  <br/> 
-
 If the user does not have an account, clicking on "Register" redirects them to the registration screen.
-
 <br/> <br/> 
 <img src="https://github.com/Raciti/Auction/blob/main/Img/register.png" alt="Img0" width="300"/>  
 <br/> <br/> <br/> 
-
 Once the user logs in, they will be on the home page.
-
 <br/> <br/> 
 <img src="https://github.com/Raciti/Auction/blob/main/Img/home.png" alt="Img1" width="300"/>
 
@@ -109,51 +104,31 @@ After logging in, users can make use of the website's features, with three secti
     <img src="https://github.com/Raciti/Auction/blob/main/Img/aste_attive.png" alt="Img1" width="300"/>
     <img src="https://github.com/Raciti/Auction/blob/main/Img/aste_giorno.png" alt="Img2" width="300"/>
 </div>
-
 <br/> <br/> 
-
 Clicking on the name of an item not yet expired redirects the user to the page to place a bid.
-
 <br/> <br/> <br/> 
-
 <img src="https://github.com/Raciti/Auction/blob/main/Img/dettaglio_prodotto.png" alt="Img0" width="300"/>
-
 <br/> <br/> 
-
 By clicking on "*Place a Bid*", users can make an offer.
-
 <br/> <br/> <br/> 
-
 <div style="display: flex; justify-content: space-between;">
     <img src="https://github.com/Raciti/Auction/blob/main/Img/modifica_offerta.png" alt="Img0" width="300"/>
     <img src="https://github.com/Raciti/Auction/blob/main/Img/aggiornamento_offerta.png" alt="Img1" width="300"/>
 </div>
-
 ## User Section
-
 Clicking on the user's name in the top right redirects to the user profile page.
-
 <br/> <br/> <br/> 
-
 <img src="https://github.com/Raciti/Auction/blob/main/Img/user.png" alt="Img0" width="300"/>
-
 <br/> <br/> 
-
 This page displays: **account information**, **won items**, **system privileges**, and **permissions**.
-
 ## Support
 
 Clicking on "Need Assistance" at the bottom right allows users to write a message to the admins. If the user is an admin, the profile page will have a section to read messages.
-
 <br/> <br/> <br/> 
-
 <div style="display: flex; justify-content: space-between;">
     <img src="https://github.com/Raciti/Auction/blob/main/Img/messaggio.png" alt="Img0" width="300"/>
     <img src="https://github.com/Raciti/Auction/blob/main/Img/conferma_messaggio.png" alt="Img1" width="300"/>
 </div>
-
 <br/> <br/>
-
 Admins will have a
-
 <img src="https://github.com/Raciti/Auction/blob/main/Img/lista_messaggi.png" alt="Img0" width="300"/>

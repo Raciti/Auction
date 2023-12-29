@@ -37,7 +37,7 @@ Cliccando sul nome di un oggetto non ancora scaduto si verrà reindirizzati nell
 <br/> <br/> <br/> 
 <img src="https://github.com/Raciti/Auction/blob/main/Img/dettaglio_prodotto.png" alt="Img0" width="300"/>
 <br/> <br/> 
-Cliccando su "*Fai un'offerta*" sarà possibile fare un'offerta
+Cliccando su "Fai un'offerta" sarà possibile fare un'offerta
 <br/> <br/> <br/> 
 <div style="display: flex; justify-content: space-between;">
     <img src="https://github.com/Raciti/Auction/blob/main/Img/modifica_offerta.png" alt="Img0" width="300"/>

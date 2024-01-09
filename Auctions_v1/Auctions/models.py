@@ -50,16 +50,3 @@ class ToDoItem(models.Model):
 
     def __str__(self):
         return f"{self.text}: Prezzo partenza {self.min_sale}, Tempo rimanente: {self.timer}, Data aggiunta: {self.due_date}. "
-
-
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-
-
-"""
-In questo esempio, stiamo creando un modello User che estende AbstractUser di Django.
-Aggiungiamo un campo ManyToManyField chiamato todo_items per rappresentare la 
-relazione many-to-many con gli oggetti ToDoItem.
-"""
-"""class User(AbstractUser):
-    todo_items = models.ManyToManyField('ToDoItem', blank=True, related_name='user_todo_items')"""

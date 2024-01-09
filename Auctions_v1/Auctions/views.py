@@ -74,7 +74,6 @@ class SignUpView(generic.CreateView):
         return super().form_invalid(form)
 
 
-# views.py
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.views import PasswordResetView
 from .form import CustomPasswordResetForm
@@ -85,18 +84,15 @@ class CustomPasswordResetView(PasswordResetView):
     template_name = 'Registration/password_reset_form.html'
 
 
-# views.py
 from django.shortcuts import render
-from django.contrib.auth.models import User  # Supponiamo che tu stia utilizzando il modello User di Django
+from django.contrib.auth.models import User  
 
 
 def user_info_view(request):
     user = User.objects.get(username=request.user.username)
-    print("CIAO")
     object_list = ToDoItem.objects.all()
 
-    # Eseguire la logica della tua funzione Check_User e ottenere la lista filtrata
-    user_name = user.username  # Verifica se il campo corretto è 'name'
+    user_name = user.username 
     oggetti_aggiudicati = [item for item in object_list if item.check_User(user_name) == True]
     print(oggetti_aggiudicati)
 
@@ -126,7 +122,6 @@ class ModificaOfferView(View):
         print(request)
         todoitem = get_object_or_404(ToDoItem, pk=todoitem_id)
 
-        # Processa la richiesta POST per modificare il campo offer
         new_offer_value = request.POST.get('new_offer')
 
         # Controlla se l'offerta è maggiore del prezzo di partenza

@@ -10,7 +10,8 @@ Nella seconda versione, vengono sfruttate al massimo le potenzialità fornite da
 
 ## Versione 3
 Nella terza versione tramite l'ausilio di *rest_framework* e di *corsheaders* è stato utilizzato un approccio a **microservizi**. In questo scenario sono state definiti tre progetti separati ognuno con un proprio database e la comunicazione tra i vari servizi è stata gestita tramite REST API.
-
+<br/> <br/> 
+<img src="https://github.com/Raciti/Auction/blob/main/Img/4_0.png" alt="Img1" width="300"/>
 # FRONTEND
 ## Fase iniziale
 La prima schermata che si avrà davanti all'avvio dell'applicazione è la schermata di login
@@ -78,6 +79,9 @@ In the second version, the full potential of Django is leveraged to create a sin
 ## Version 3
 
 In the third version, with the help of *rest_framework* and *corsheaders*, a **microservices** approach is employed. In this scenario, three separate projects are defined, each with its own database, and communication between the various services is handled through REST APIs.
+
+<br/> <br/> 
+<img src="https://github.com/Raciti/Auction/blob/main/Img/4_0.png" alt="Img1" width="300"/>
 
 # Application Overview
 
